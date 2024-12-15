@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +45,9 @@ public class VehicleController {
 			v1.setYear(user.getYear());
 		
 		return repo.save(v1);
+	}
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable int id) {
+		 repo.deleteById(id);
 	}
 }

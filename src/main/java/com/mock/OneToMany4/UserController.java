@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,38 +33,19 @@ public class UserController {
 	
 	@PostMapping
 	public User add(@RequestBody User user) {
-		User u=new User();
-		u.setFirst(user.getFirst());
-		u.setLast(user.getLast());
-		List<Vehicle> l=new ArrayList<Vehicle>();
 		
-		for(Vehicle v:user.getVehicle()) {
-			Vehicle v1=new Vehicle();
-			v1.setCarFirst(v.getCarFirst());
-			v1.setCarLast(v.getCarLast());
-			v1.setYear(v.getYear());
-			v1.setUser(user);
-			l.add(v1);
-		}
-		u.setVehicle(l);
-		return repo.save(u);
+		return repo.save(user);
 	}
 	@PutMapping("/{id}")
 	public User update(@RequestBody User user,@PathVariable int id) {
 		User u=repo.findById(id).orElseThrow();
 		u.setFirst(user.getFirst());
 		u.setLast(user.getLast());
-		List<Vehicle> l=u.getVehicle();
 		
-		for(Vehicle v:user.getVehicle()) {
-			Vehicle v1=new Vehicle();
-			v1.setCarFirst(v.getCarFirst());
-			v1.setCarLast(v.getCarLast());
-			v1.setYear(v.getYear());
-			v1.setUser(user);
-			l.add(v1);
-		}
-		u.setVehicle(l);
 		return repo.save(u);
+	}
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable int id) {
+		 repo.deleteById(id);
 	}
 }
